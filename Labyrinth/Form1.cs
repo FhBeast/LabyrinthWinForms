@@ -19,9 +19,8 @@ public partial class Form1 : Form
         HeightBitmap = pictureBox1.Height;
         WidthBitmap = pictureBox1.Width;        
 
-        field = new(25, 60);
+        field = new(30, 60);
         field.GenerateDepthSearch();
-        field.WaveTracing();
         Draw();
     }
 
@@ -31,5 +30,11 @@ public partial class Form1 : Form
         Drawing.DrawWaves(bitmap, field);
         Drawing.DrawLabytinth(bitmap, field);
         pictureBox1.Image = bitmap;
+    }
+
+    private void timer1_Tick(object sender, EventArgs e)
+    {
+        field.RunOneStepWaveTracing();
+        Draw();
     }
 }

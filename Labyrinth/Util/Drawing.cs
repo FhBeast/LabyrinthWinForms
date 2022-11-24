@@ -5,25 +5,24 @@ namespace Labyrinth.Util;
 internal static class Drawing
 {
     private static int CellSize { get; } = 30;
+    private static int StartPointX { get; } = 10;
+    private static int StartPointY { get; } = 10;
 
     public static void DrawLabytinth(Bitmap bitmap, Field field)
     {
         var formGraphics = Graphics.FromImage(bitmap);
         Pen pen = new(Color.Black, 2);
 
-        var startPointX = 30;
-        var startPointY = 30;
-
         var halfCellSize = CellSize / 2;
 
-        var currentPositionX = startPointX + halfCellSize;
+        var currentPositionX = StartPointX + halfCellSize;
         int currentPositionY;
 
         int up, down, left, right;
 
         for (int x = 0; x < field.Width; x++)
         {
-            currentPositionY = startPointY + halfCellSize;
+            currentPositionY = StartPointY + halfCellSize;
             left = currentPositionX - halfCellSize;
             right = currentPositionX + halfCellSize;
 
@@ -62,15 +61,12 @@ internal static class Drawing
     {
         var formGraphics = Graphics.FromImage(bitmap);
 
-        var startPointX = 30;
-        var startPointY = 30;
-
-        var currentPositionX = startPointX;
+        var currentPositionX = StartPointX;
         int currentPositionY;
 
         for (int x = 0; x < field.Width; x++)
         {
-            currentPositionY = startPointY;
+            currentPositionY = StartPointY;
 
             for (int y = 0; y < field.Height; y++)
             {
@@ -106,11 +102,8 @@ internal static class Drawing
     {
         var formGraphics = Graphics.FromImage(bitmap);
 
-        var startPointX = 30;
-        var startPointY = 30;
-
-        var drawPositionX = startPointX + player.PositionX * CellSize;
-        var drawPositionY = startPointY + player.PositionY * CellSize;
+        var drawPositionX = StartPointX + player.PositionX * CellSize;
+        var drawPositionY = StartPointY + player.PositionY * CellSize;
 
         if (player.MoveUp)
         {
