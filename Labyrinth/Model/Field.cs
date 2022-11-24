@@ -9,6 +9,11 @@ internal class Field
 
     public int MaxStepsForEnd { get; private set; }
 
+    public Field()
+    {
+        Cells = new Cell[0, 0];
+    }
+
     public Field(int height, int width)
     {
         if (height < 1)

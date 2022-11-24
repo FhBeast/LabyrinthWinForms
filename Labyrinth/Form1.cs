@@ -9,10 +9,10 @@ public partial class Form1 : Form
     {
         InitializeComponent();
     }
-
+    
     private int WidthBitmap { get; set; }
     private int HeightBitmap { get; set; }
-    private Field field;
+    private Field field = new();
 
     private void Form1_Load(object sender, EventArgs e)
     {
