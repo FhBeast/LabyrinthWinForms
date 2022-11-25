@@ -20,7 +20,7 @@ public partial class Form1 : Form
         HeightBitmap = pictureBox1.Height;
         WidthBitmap = pictureBox1.Width;
 
-        Field = new(300, 600);
+        Field = new(90, 180);
         Field.GenerateDepthSearch();
         //Field.AddBraidng();
         StartWave();
