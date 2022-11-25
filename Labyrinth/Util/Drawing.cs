@@ -87,7 +87,7 @@ internal static class Drawing
                 }
                 else
                 {
-                    formGraphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 0, 0)),
+                    formGraphics.FillRectangle(new SolidBrush(Color.FromArgb(150, 150, 255)),
                         new Rectangle(currentPositionX, currentPositionY, CellSize, CellSize));
                 }
 

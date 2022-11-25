@@ -12,24 +12,25 @@ public partial class Form1 : Form
 
     private int WidthBitmap { get; set; }
     private int HeightBitmap { get; set; }
-    private Field field = new();
+    private Field Field = new();
+    private Point MousePictureBoxPosition { get; set; }
 
     private void Form1_Load(object sender, EventArgs e)
     {
         HeightBitmap = pictureBox1.Height;
         WidthBitmap = pictureBox1.Width;
 
-        field = new(90, 180);
-        field.GenerateDepthSearch();
-        field.AddBraidng();
+        Field = new(300, 600);
+        Field.GenerateDepthSearch();
+        //Field.AddBraidng();
         StartWave();
     }
 
     private void Draw()
     {
         Bitmap bitmap = new(WidthBitmap, HeightBitmap);
-        Drawing.DrawWaves(bitmap, field);
-        Drawing.DrawLabytinth(bitmap, field);
+        Drawing.DrawWaves(bitmap, Field);
+        Drawing.DrawLabytinth(bitmap, Field);
         pictureBox1.Image = bitmap;
     }
 
@@ -40,31 +41,36 @@ public partial class Form1 : Form
 
     private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
     {
-        int startPointX = Drawing.StartPointX;
-        int startPointY = Drawing.StartPointY;
-        int cellSize = Drawing.CellSize;
-        int width = field.Width;
-        int height = field.Height;
-
-        int PositionX = (e.X - startPointX) / cellSize;
-        int PositionY = (e.Y - startPointY) / cellSize;
-
-        if (PositionX >= 0 &&
-            PositionY >= 0 &&
-            PositionX < width &&
-            PositionY < height && 
-            !new Point(PositionX, PositionY).Equals(field.EndPosition))
-        {
-            field.SetEnd(PositionX, PositionY);
-            StartWave();
-        }
+        MousePictureBoxPosition = new(e.X, e.Y);
     }
 
     private void StartWave()
     {
-        Task.Run(
-            () => {
-                field.WaveTracing();
-            });
+        Task.Run(() =>
+        {
+            Field.WaveTracingFast();
+        });
+    }
+
+    private void pictureBox1_Click(object sender, EventArgs e)
+    {
+        int startPointX = Drawing.StartPointX;
+        int startPointY = Drawing.StartPointY;
+        int cellSize = Drawing.CellSize;
+        int width = Field.Width;
+        int height = Field.Height;
+
+        int PositionX = (MousePictureBoxPosition.X - startPointX) / cellSize;
+        int PositionY = (MousePictureBoxPosition.Y - startPointY) / cellSize;
+
+        if (PositionX >= 0 &&
+            PositionY >= 0 &&
+            PositionX < width &&
+            PositionY < height &&
+            !new Point(PositionX, PositionY).Equals(Field.EndPosition))
+        {
+            Field.SetEnd(PositionX, PositionY);
+            StartWave();
+        }
     }
 }
