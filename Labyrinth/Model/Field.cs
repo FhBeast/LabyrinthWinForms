@@ -1,4 +1,7 @@
-﻿namespace Labyrinth.Model;
+﻿using System;
+using System.Xml.Linq;
+
+namespace Labyrinth.Model;
 
 internal class Field
 {
@@ -59,13 +62,7 @@ internal class Field
                 $"{nameof(y)} is less than 0 or more than labyrinth height");
         }
 
-        for (int w = 0; w < Width; w++)
-        {
-            for (int h = 0; h < Height; h++)
-            {
-                GetCell(w, h).StepsForEnd = int.MaxValue;
-            }
-        }
+        ClearWaves();
         EndPosition = new Point(x, y);
         GetCell(EndPosition.X, EndPosition.Y).StepsForEnd = 0;
     }
@@ -429,12 +426,64 @@ internal class Field
     public void WaveTracing()
     {
         bool isSolved = false;
-        ClearWaves();
 
         while (!isSolved)
         {
             isSolved = RunOneStepWaveTracing();
         }
+    }
+
+    public void WaveTracingFast()
+    {
+        bool isSolved = false;
+        List<Point> waves = new()
+        {
+            EndPosition
+        };
+
+        while (!isSolved)
+        {
+            isSolved = RunOneStepWaveTracingFast(waves);
+        }
+    }
+
+    public bool RunOneStepWaveTracingFast(List<Point> waves)
+    {
+        if (waves is null)
+        {
+            throw new ArgumentNullException(
+                $"{nameof(waves)}");
+        }
+
+        bool isSolved = true;
+
+        List<Point> wavesNew = new();
+
+        foreach (var wave in waves)
+        {
+            List<Point> neighbors = GetAvailableNeighbors(wave.X, wave.Y);
+            Cell currentCell = GetCell(wave.X, wave.Y);
+
+            foreach (var neighbor in neighbors)
+            {
+                Cell neighborCell = GetCell(neighbor.X, neighbor.Y);
+
+                if (CompareToUpdate(currentCell, neighborCell))
+                {
+                    isSolved = false;
+                    wavesNew.Add(neighbor);
+                    neighborCell.StepsForEnd = currentCell.StepsForEnd + 1;
+                    if (neighborCell.StepsForEnd > MaxStepsForEnd)
+                    {
+                        MaxStepsForEnd = neighborCell.StepsForEnd;
+                    }
+                }
+            }
+        }
+
+        waves.Clear();
+        waves.AddRange(wavesNew);
+        return isSolved;
     }
 
     public bool RunOneStepWaveTracing()
@@ -492,16 +541,10 @@ internal class Field
 
     private void ClearWaves()
     {
-        MaxStepsForEnd = 0;
+        MaxStepsForEnd = -1;
         foreach (var cell in Cells)
         {
             cell.StepsForEnd = int.MaxValue;
         }
-        UpdateEndingPoint();
-    }
-
-    private void UpdateEndingPoint()
-    {
-        SetEnd(EndPosition.X, EndPosition.Y);
     }
 }
