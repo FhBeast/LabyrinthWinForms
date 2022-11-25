@@ -1,7 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
-
-namespace Labyrinth.Model;
+﻿namespace Labyrinth.Model;
 
 internal class Field
 {
