@@ -4,14 +4,15 @@ namespace Labyrinth.Util;
 
 internal static class Drawing
 {
-    private static int CellSize { get; } = 30;
-    private static int StartPointX { get; } = 10;
-    private static int StartPointY { get; } = 10;
+    public static int CellSize { get; } = 10;
+    public static int StartPointX { get; } = 10;
+    public static int StartPointY { get; } = 10;
+    public static int WallThickness { get; } = 1;
 
     public static void DrawLabytinth(Bitmap bitmap, Field field)
     {
         var formGraphics = Graphics.FromImage(bitmap);
-        Pen pen = new(Color.Black, 2);
+        Pen pen = new(Color.Black, WallThickness);
 
         var halfCellSize = CellSize / 2;
 

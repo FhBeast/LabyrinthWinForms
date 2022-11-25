@@ -429,6 +429,7 @@ internal class Field
     public void WaveTracing()
     {
         bool isSolved = false;
+        ClearWaves();
 
         while (!isSolved)
         {
@@ -487,5 +488,20 @@ internal class Field
 
         return original.IsFound() &&
             updatedSteps - originalSteps > 1;
+    }
+
+    private void ClearWaves()
+    {
+        MaxStepsForEnd = 0;
+        foreach (var cell in Cells)
+        {
+            cell.StepsForEnd = int.MaxValue;
+        }
+        UpdateEndingPoint();
+    }
+
+    private void UpdateEndingPoint()
+    {
+        SetEnd(EndPosition.X, EndPosition.Y);
     }
 }
