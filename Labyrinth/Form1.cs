@@ -14,6 +14,7 @@ public partial class Form1 : Form
     private int HeightBitmap { get; set; }
     private Field Field = new();
     private Point MousePictureBoxPosition { get; set; }
+    private Player Player { get; set; }
 
     private void Form1_Load(object sender, EventArgs e)
     {
@@ -22,7 +23,8 @@ public partial class Form1 : Form
 
         Field = new(90, 180);
         Field.GenerateDepthSearch();
-        //Field.AddBraidng();
+        Field.AddBraidng();
+        Player = new(0, 0);
         StartWave();
     }
 
@@ -31,6 +33,7 @@ public partial class Form1 : Form
         Bitmap bitmap = new(WidthBitmap, HeightBitmap);
         Drawing.DrawWaves(bitmap, Field);
         Drawing.DrawLabytinth(bitmap, Field);
+        Drawing.DrawPlayer(bitmap, Player);
         pictureBox1.Image = bitmap;
     }
 
@@ -71,6 +74,23 @@ public partial class Form1 : Form
         {
             Field.SetEnd(PositionX, PositionY);
             StartWave();
+        }
+    }
+
+    private void timer2_Tick(object sender, EventArgs e)
+    {
+        List<Point> cells = Field.GetAvailableNeighbors(Player.PositionX, Player.PositionY);
+
+        foreach (var cell in cells)
+        {
+            int playerSteps = Field.GetCell(Player.PositionX, Player.PositionY).StepsForEnd;
+            int cellSteps = Field.GetCell(cell.X, cell.Y).StepsForEnd;
+            
+            if (playerSteps > cellSteps)
+            {
+                Player.SetPosition(cell.X, cell.Y);
+                break;
+            }
         }
     }
 }

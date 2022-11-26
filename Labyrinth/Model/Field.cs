@@ -355,7 +355,7 @@ internal class Field
         return neighbors;
     }
 
-    private List<Point> GetAvailableNeighbors(int x, int y)
+    public List<Point> GetAvailableNeighbors(int x, int y)
     {
         if (x < 0 || x >= Width)
         {
