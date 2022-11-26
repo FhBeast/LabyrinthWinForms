@@ -18,6 +18,12 @@ internal class Player
         PositionY = y;
     }
 
+    public void SetPosition(int x, int y)
+    {
+        PositionX = x;
+        PositionY = y;
+    }
+
     public void Update(Field field)
     {
         PixelsToPoint = 30;
