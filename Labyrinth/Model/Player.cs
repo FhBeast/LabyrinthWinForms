@@ -5,8 +5,6 @@ internal class Player
     public int PositionX { get; private set; }
     public int PositionY { get; private set; }
 
-    public int PixelsToPoint { get; set; }
-
     public bool MoveUp { get; set; }
     public bool MoveDown { get; set; }
     public bool MoveLeft { get; set; }
@@ -26,8 +24,6 @@ internal class Player
 
     public void Update(Field field)
     {
-        PixelsToPoint = 30;
-
         if (MoveUp &&
             field.GetCell(PositionX, PositionY).UpAvailable)
         {
@@ -47,18 +43,6 @@ internal class Player
             field.GetCell(PositionX, PositionY).RightAvailable)
         {
             PositionX++;
-        }
-        else 
-        {
-            PixelsToPoint = 0;
-        }
-    }
-
-    public void UpdatePixelsToPoint()
-    {
-        if (PixelsToPoint > 0)
-        {
-            PixelsToPoint -= 1;
         }
     }
 }
