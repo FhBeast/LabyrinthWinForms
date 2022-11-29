@@ -4,7 +4,7 @@ namespace Labyrinth.Util;
 
 internal static class Drawing
 {
-    public static int CellSize { get; } = 10;
+    public static int CellSize { get; } = 30;
     public static int StartPointX { get; } = 10;
     public static int StartPointY { get; } = 10;
     public static int WallThickness { get; } = 1;
@@ -106,25 +106,21 @@ internal static class Drawing
         var drawPositionX = StartPointX + player.PositionX * CellSize;
         var drawPositionY = StartPointY + player.PositionY * CellSize;
 
-        if (player.MoveUp)
-        {
-            drawPositionY += player.PixelsToPoint;
-        }
-        else if (player.MoveDown)
-        {
-            drawPositionY -= player.PixelsToPoint;
-        }
-        else if (player.MoveLeft)
-        {
-            drawPositionX += player.PixelsToPoint;
-        }
-        else if (player.MoveRight)
-        {
-            drawPositionX -= player.PixelsToPoint;
-        }
-
         formGraphics.FillRectangle(new SolidBrush(Color.FromArgb(
             100, 100, 255)),
+            new Rectangle(drawPositionX, drawPositionY,
+            CellSize, CellSize));
+    }
+
+    public static void DrawEnemy(Bitmap bitmap, Enemy enemy)
+    {
+        var formGraphics = Graphics.FromImage(bitmap);
+
+        var drawPositionX = StartPointX + enemy.PositionX * CellSize;
+        var drawPositionY = StartPointY + enemy.PositionY * CellSize;
+
+        formGraphics.FillRectangle(new SolidBrush(Color.FromArgb(
+            255, 100, 100)),
             new Rectangle(drawPositionX, drawPositionY,
             CellSize, CellSize));
     }
