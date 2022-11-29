@@ -26,7 +26,8 @@ public partial class Form1 : Form
         Field.GenerateDepthSearch();
         Field.AddBraidng();
         Player = new(0, 0);
-        Enemy = new(3, 3);
+        Enemy = new(10, 10);
+        Enemy.SetSlowdown(3);
         StartWave();
     }
 
@@ -83,5 +84,35 @@ public partial class Form1 : Form
     private void timer2_Tick(object sender, EventArgs e)
     {
         Enemy.Update(Field);
+        Player.Update(Field);
+        if (!new Point(Player.PositionX, Player.PositionY).Equals(Field.EndPosition))
+        {
+            Field.SetEnd(Player.PositionX, Player.PositionY);
+            StartWave();
+        }
+        Player.MoveLeft = false;
+        Player.MoveRight = false;
+        Player.MoveUp = false;
+        Player.MoveDown = false;
+    }
+
+    private void Form1_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.W)
+        {
+            Player.MoveUp = true;
+        }
+        else if (e.KeyCode == Keys.S)
+        {
+            Player.MoveDown = true;
+        }
+        else if (e.KeyCode == Keys.A)
+        {
+            Player.MoveLeft = true;
+        }
+        else if (e.KeyCode == Keys.D)
+        {
+            Player.MoveRight = true;
+        }
     }
 }
