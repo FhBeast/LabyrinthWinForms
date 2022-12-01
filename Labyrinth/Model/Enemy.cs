@@ -1,24 +1,14 @@
 ﻿namespace Labyrinth.Model;
 
-internal class Enemy
+internal class Enemy : BasePlayableEntity
 {
-    public int PositionX { get; private set; }
-    public int PositionY { get; private set; }
     public int Slowdown { get; private set; }
     private int TicksForMove { get; set; }
 
-    public Enemy(int x, int y)
+    public Enemy(int x, int y) : base(x, y)
     {
-        PositionX = x;
-        PositionY = y;
         Slowdown = 0;
         TicksForMove = 0;
-    }
-
-    public void SetPosition(int x, int y)
-    {
-        PositionX = x;
-        PositionY = y;
     }
 
     public void SetSlowdown(int slowdown)
@@ -32,7 +22,7 @@ internal class Enemy
         Slowdown = slowdown;
     }
 
-    public void Update(Field field)
+    public override void Update(Field field)
     {
         if (TicksForMove == 0)
         {
