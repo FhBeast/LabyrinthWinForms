@@ -8,6 +8,8 @@ public partial class Form1 : Form
     public Form1()
     {
         InitializeComponent();
+        Player = new(0, 0);
+        Enemy = new(10, 10);
     }
 
     private int WidthBitmap { get; set; }
@@ -25,9 +27,7 @@ public partial class Form1 : Form
         Field = new(30, 60);
         Field.GenerateDepthSearch();
         Field.AddBraidng();
-        Player = new(0, 0);
-        Enemy = new(10, 10);
-        Enemy.SetSlowdown(3);
+        Enemy.SetSlowdown(1);
         StartWave();
     }
 
@@ -41,12 +41,12 @@ public partial class Form1 : Form
         pictureBox1.Image = bitmap;
     }
 
-    private void timer1_Tick(object sender, EventArgs e)
+    private void Timer1_Tick(object sender, EventArgs e)
     {
         Draw();
     }
 
-    private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+    private void PictureBox1_MouseMove(object sender, MouseEventArgs e)
     {
         MousePictureBoxPosition = new(e.X, e.Y);
     }
@@ -59,7 +59,7 @@ public partial class Form1 : Form
         });
     }
 
-    private void pictureBox1_Click(object sender, EventArgs e)
+    private void PictureBox1_Click(object sender, EventArgs e)
     {
         int startPointX = Drawing.StartPointX;
         int startPointY = Drawing.StartPointY;
@@ -81,7 +81,7 @@ public partial class Form1 : Form
         }
     }
 
-    private void timer2_Tick(object sender, EventArgs e)
+    private void Timer2_Tick(object sender, EventArgs e)
     {
         Enemy.Update(Field);
         Player.Update(Field);
