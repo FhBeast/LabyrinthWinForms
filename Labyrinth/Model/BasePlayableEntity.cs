@@ -11,9 +11,16 @@ internal abstract class BasePlayableEntity
     }
     public void SetPosition(int x, int y)
     {
+        if (x < 0)
+        {
+            throw new ArgumentException($"{nameof(x)} is less than 0");
+        }
+        if (y < 0)
+        {
+            throw new ArgumentException($"{nameof(y)} is less than 0");
+        }
+
         PositionX = x;
         PositionY = y;
     }
-
-    public abstract void Update(Field field);
 }
