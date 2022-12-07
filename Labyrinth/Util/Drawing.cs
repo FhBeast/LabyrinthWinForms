@@ -12,9 +12,9 @@ internal static class Drawing
     public static Color EnemyColor { get; } = Color.FromArgb(255, 100, 100);
     public static Color CoinColor { get; } = Color.FromArgb(200, 0, 255);
 
-    private static Brush playerBrush = new SolidBrush(PlayerColor);
-    private static Brush enemyBrush = new SolidBrush(EnemyColor);
-    private static Brush coinBrush = new SolidBrush(CoinColor);
+    private static readonly Brush playerBrush = new SolidBrush(PlayerColor);
+    private static readonly Brush enemyBrush = new SolidBrush(EnemyColor);
+    private static readonly Brush coinBrush = new SolidBrush(CoinColor);
     public static int CoinDiameter { get; } = 20;
 
     public static void DrawLabytinth(Bitmap bitmap, Field field)

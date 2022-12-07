@@ -11,6 +11,11 @@ internal class Player : BasePlayableEntity
 
     public void Update(Field field)
     {
+        if (field is null)
+        {
+            throw new ArgumentNullException($"{nameof(field)}");
+        }
+
         if (MoveUp &&
             field.GetCell(PositionX, PositionY).UpAvailable)
         {

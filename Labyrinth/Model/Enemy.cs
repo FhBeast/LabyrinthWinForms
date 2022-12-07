@@ -15,8 +15,7 @@ internal class Enemy : BasePlayableEntity
     {
         if (slowdown < 0)
         {
-            throw new ArgumentException(
-                $"{nameof(slowdown)} is less than 0 or more than labyrinth width");
+            throw new ArgumentException($"{nameof(slowdown)} is less than 0");
         }
 
         Slowdown = slowdown;
@@ -24,6 +23,11 @@ internal class Enemy : BasePlayableEntity
 
     public void Update(Field field)
     {
+        if (field is null)
+        {
+            throw new ArgumentNullException($"{nameof(field)}");
+        }
+
         if (TicksForMove == 0)
         {
             TicksForMove = Slowdown;
