@@ -11,10 +11,12 @@ public partial class Form1 : Form
         Player = new(0, 0);
         Enemy = new(10, 10);
         Field = new();
-        Coins = new();
-        Coins.Add(new Coin(5, 5));
-        Coins.Add(new Coin(50, 5));
-        Coins.Add(new Coin(5, 25));
+        Coins = new()
+        {
+            new Coin(5, 5),
+            new Coin(50, 5),
+            new Coin(5, 25)
+        };
     }
 
     private bool ReadyToDraw { get; set; }

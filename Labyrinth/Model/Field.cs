@@ -121,16 +121,16 @@ internal class Field
         return Cells[y, x];
     }
 
-    public List<Point> GetUnvisitedNeighbors(bool[,] array, int x, int y)
+    public static List<Point> GetUnvisitedNeighbors(bool[,] array, int x, int y)
     {
-        int height = array.GetLength(0);
-        int width = array.GetLength(1);
-
         if (array is null)
         {
             throw new ArgumentNullException(
                 $"{nameof(array)}");
         }
+
+        int height = array.GetLength(0);
+        int width = array.GetLength(1);
 
         if (x < 0 || x >= width)
         {
@@ -230,8 +230,7 @@ internal class Field
     {
         if (waves is null)
         {
-            throw new ArgumentNullException(
-                $"{nameof(waves)}");
+            throw new ArgumentNullException($"{nameof(waves)}");
         }
 
         bool isSolved = true;
@@ -297,18 +296,16 @@ internal class Field
         return isSolved;
     }
 
-    private bool CompareToUpdate(Cell original, Cell updated)
+    private static bool CompareToUpdate(Cell original, Cell updated)
     {
         if (original is null)
         {
-            throw new ArgumentNullException(
-                $"{nameof(original)}");
+            throw new ArgumentNullException($"{nameof(original)}");
         }
 
         if (updated is null)
         {
-            throw new ArgumentNullException(
-                $"{nameof(original)}");
+            throw new ArgumentNullException( $"{nameof(original)}");
         }
 
         int originalSteps = original.StepsForEnd;

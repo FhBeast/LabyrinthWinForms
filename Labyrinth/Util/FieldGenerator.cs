@@ -5,6 +5,11 @@ internal static class FieldGenerator
 {
     public static void GenerateBinaryTree(Field field)
     {
+        if (field is null)
+        {
+            throw new ArgumentNullException($"{nameof(field)}");
+        }
+
         int Height = field.Height;
         int Width = field.Width;
 
@@ -39,6 +44,11 @@ internal static class FieldGenerator
 
     public static void GenerateSidewinder(Field field)
     {
+        if (field is null)
+        {
+            throw new ArgumentNullException($"{nameof(field)}");
+        }
+
         int Height = field.Height;
         int Width = field.Width;
 
@@ -76,6 +86,11 @@ internal static class FieldGenerator
 
     public static void GenerateOldosBorder(Field field)
     {
+        if (field is null)
+        {
+            throw new ArgumentNullException($"{nameof(field)}");
+        }
+
         int Height = field.Height;
         int Width = field.Width;
 
@@ -139,6 +154,11 @@ internal static class FieldGenerator
 
     public static void GenerateDepthSearch(Field field)
     {
+        if (field is null)
+        {
+            throw new ArgumentNullException($"{nameof(field)}");
+        }
+
         int Height = field.Height;
         int Width = field.Width;
 
@@ -162,7 +182,7 @@ internal static class FieldGenerator
                 cellCount--;
             }
 
-            List<Point> neighbors = field.GetUnvisitedNeighbors(cellsInTree, PositionX, PositionY);
+            List<Point> neighbors = Field.GetUnvisitedNeighbors(cellsInTree, PositionX, PositionY);
 
             if (neighbors.Count > 0)
             {
@@ -206,6 +226,11 @@ internal static class FieldGenerator
 
     public static void AddBraidng(Field field)
     {
+        if (field is null)
+        {
+            throw new ArgumentNullException($"{nameof(field)}");
+        }
+
         int Height = field.Height;
         int Width = field.Width;
 
