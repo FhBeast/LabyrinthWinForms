@@ -1,4 +1,5 @@
-﻿using Labyrinth.Model;
+﻿using Labyrinth.Controller;
+using Labyrinth.Model;
 using Labyrinth.Util;
 
 namespace Labyrinth;
