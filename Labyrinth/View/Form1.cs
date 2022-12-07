@@ -5,23 +5,11 @@ namespace Labyrinth;
 
 public partial class Form1 : Form
 {
-    public Form1()
-    {
-        InitializeComponent();
-        Player = new(0, 0);
-        Enemy = new(10, 10);
-        Field = new();
-        Coins = new()
-        {
-            new Coin(5, 5),
-            new Coin(50, 5),
-            new Coin(5, 25)
-        };
-    }
-
     private bool ReadyToDraw { get; set; }
     private int WidthBitmap { get; set; }
     private int HeightBitmap { get; set; }
+    private List<Level> Levels { get; set; }
+    private Level CurrentLevel { get; set; }
     private Field Field { get; set; }
     private Point MousePictureBoxPosition { get; set; }
     private Player Player { get; set; }
@@ -29,15 +17,28 @@ public partial class Form1 : Form
 
     private List<Coin> Coins { get; set; }
 
+    public Form1()
+    {
+        InitializeComponent();
+
+        Levels = new()
+        {
+            new Level(30, 60, 3, 1)
+        };
+
+        CurrentLevel = Levels[0];
+
+        Field = CurrentLevel.GenerateField();
+        Player = CurrentLevel.GeneratePlayer();
+        Enemy = CurrentLevel.GenerateEnemy();
+        Coins = CurrentLevel.GenerateCoins();
+    }
+
     private void Form1_Load(object sender, EventArgs e)
     {
         HeightBitmap = pictureBox1.Height;
         WidthBitmap = pictureBox1.Width;
 
-        Field = new(30, 60);
-        FieldGenerator.GenerateDepthSearch(Field);
-        FieldGenerator.AddBraidng(Field);
-        Enemy.SetSlowdown(1);
         StartWave();
     }
 
