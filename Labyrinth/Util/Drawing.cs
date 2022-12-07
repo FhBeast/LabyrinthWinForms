@@ -8,6 +8,14 @@ internal static class Drawing
     public static int StartPointX { get; } = 10;
     public static int StartPointY { get; } = 10;
     public static int WallThickness { get; } = 1;
+    public static Color PlayerColor { get; } = Color.FromArgb(100, 100, 255);
+    public static Color EnemyColor { get; } = Color.FromArgb(255, 100, 100);
+    public static Color CoinColor { get; } = Color.FromArgb(200, 0, 255);
+
+    private static Brush playerBrush = new SolidBrush(PlayerColor);
+    private static Brush enemyBrush = new SolidBrush(EnemyColor);
+    private static Brush coinBrush = new SolidBrush(CoinColor);
+    public static int CoinDiameter { get; } = 20;
 
     public static void DrawLabytinth(Bitmap bitmap, Field field)
     {
@@ -64,6 +72,7 @@ internal static class Drawing
 
         var currentPositionX = StartPointX;
         int currentPositionY;
+        double smoothness = 255.0 / field.MaxStepsForEnd;
 
         for (int x = 0; x < field.Width; x++)
         {
@@ -73,7 +82,6 @@ internal static class Drawing
             {
                 Cell cell = field.GetCell(x, y);
                 int steps = cell.StepsForEnd;
-                double smoothness = 255.0 / field.MaxStepsForEnd;
 
                 if (cell.IsFound())
                 {
@@ -106,8 +114,7 @@ internal static class Drawing
         var drawPositionX = StartPointX + player.PositionX * CellSize;
         var drawPositionY = StartPointY + player.PositionY * CellSize;
 
-        formGraphics.FillRectangle(new SolidBrush(Color.FromArgb(
-            100, 100, 255)),
+        formGraphics.FillRectangle(playerBrush,
             new Rectangle(drawPositionX, drawPositionY,
             CellSize, CellSize));
     }
@@ -119,9 +126,24 @@ internal static class Drawing
         var drawPositionX = StartPointX + enemy.PositionX * CellSize;
         var drawPositionY = StartPointY + enemy.PositionY * CellSize;
 
-        formGraphics.FillRectangle(new SolidBrush(Color.FromArgb(
-            255, 100, 100)),
+        formGraphics.FillRectangle(enemyBrush,
             new Rectangle(drawPositionX, drawPositionY,
             CellSize, CellSize));
+    }
+
+    public static void DrawCoin(Bitmap bitmap, Coin coin)
+    {
+        var formGraphics = Graphics.FromImage(bitmap);
+
+        var drawPositionX = StartPointX + coin.PositionX * CellSize;
+        var drawPositionY = StartPointY + coin.PositionY * CellSize;
+
+        var delta = (CellSize - CoinDiameter) / 2;
+        var firstX = drawPositionX + delta;
+        var firstY = drawPositionY + delta;
+
+        formGraphics.FillEllipse(coinBrush,
+            new Rectangle(firstX, firstY,
+            CoinDiameter, CoinDiameter));
     }
 }
