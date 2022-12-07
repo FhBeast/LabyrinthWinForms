@@ -9,7 +9,7 @@ internal class Player : BasePlayableEntity
 
     public Player(int x, int y) : base(x, y) { }
 
-    public override void Update(Field field)
+    public void Update(Field field)
     {
         if (MoveUp &&
             field.GetCell(PositionX, PositionY).UpAvailable)

@@ -22,7 +22,7 @@ internal class Enemy : BasePlayableEntity
         Slowdown = slowdown;
     }
 
-    public override void Update(Field field)
+    public void Update(Field field)
     {
         if (TicksForMove == 0)
         {
