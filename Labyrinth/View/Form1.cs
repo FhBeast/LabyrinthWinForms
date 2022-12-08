@@ -24,12 +24,12 @@ public partial class Form1 : Form
 
         Levels = new()
         {
-            new Level(10, 10, 2, 3),
-            new Level(20, 20, 3, 2),
-            new Level(30, 30, 4, 1),
-            new Level(30, 40, 5, 1),
-            new Level(30, 50, 6, 1),
-            new Level(30, 60, 7, 0),
+            new Level(10, 10, 1, 3),
+            new Level(20, 20, 2, 3),
+            new Level(30, 30, 3, 2),
+            new Level(30, 40, 4, 2),
+            new Level(30, 50, 5, 1),
+            new Level(30, 60, 6, 1),
         };
 
         CurrentLevelNumber = 0;
@@ -45,10 +45,22 @@ public partial class Form1 : Form
     {
         HeightBitmap = pictureBox1.Height;
         WidthBitmap = pictureBox1.Width;
+
+        //for (int i = 0; i < Levels.Count; i++)
+        //{
+        //    var level1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        //    levelSelectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        //    level1ToolStripMenuItem});
+        //    level1ToolStripMenuItem.Name = $"level{i}ToolStripMenuItem";
+        //    level1ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+        //    level1ToolStripMenuItem.Text = $"Уровень {i + 1}";
+        //    level1ToolStripMenuItem.Click += new System.EventHandler(LevelToolStripMenuItem_Click);
+        //}
     }
 
     private void LoadLevel()
     {
+        CurrentLevel = Levels[CurrentLevelNumber];
         Field = CurrentLevel.GenerateField();
         Player = CurrentLevel.GeneratePlayer();
         Enemy = CurrentLevel.GenerateEnemy();
@@ -90,27 +102,27 @@ public partial class Form1 : Form
         });
     }
 
-    //private void PictureBox1_Click(object sender, EventArgs e)
-    //{
-    //    int startPointX = Drawing.StartPointX;
-    //    int startPointY = Drawing.StartPointY;
-    //    int cellSize = Drawing.CellSize;
-    //    int width = Field.Width;
-    //    int height = Field.Height;
+    private void PictureBox1_Click(object sender, EventArgs e)
+    {
+        int startPointX = Drawing.StartPointX;
+        int startPointY = Drawing.StartPointY;
+        int cellSize = Drawing.CellSize;
+        int width = Field.Width;
+        int height = Field.Height;
 
-    //    int PositionX = (MousePictureBoxPosition.X - startPointX) / cellSize;
-    //    int PositionY = (MousePictureBoxPosition.Y - startPointY) / cellSize;
+        int PositionX = (MousePictureBoxPosition.X - startPointX) / cellSize;
+        int PositionY = (MousePictureBoxPosition.Y - startPointY) / cellSize;
 
-    //    if (PositionX >= 0 &&
-    //        PositionY >= 0 &&
-    //        PositionX < width &&
-    //        PositionY < height &&
-    //        !new Point(PositionX, PositionY).Equals(Field.EndPosition))
-    //    {
-    //        Field.SetEnd(PositionX, PositionY);
-    //        StartWave();
-    //    }
-    //}
+        if (PositionX >= 0 &&
+            PositionY >= 0 &&
+            PositionX < width &&
+            PositionY < height &&
+            !new Point(PositionX, PositionY).Equals(Field.EndPosition))
+        {
+            Field.SetEnd(PositionX, PositionY);
+            StartWave();
+        }
+    }
 
     private void Timer2_Tick(object sender, EventArgs e)
     {
@@ -123,10 +135,9 @@ public partial class Form1 : Form
             Draw();
             if (MessageBox.Show("Вы выиграли!") == DialogResult.OK)
             {
-                StartGame();
                 CurrentLevelNumber++;
-                CurrentLevel = Levels[CurrentLevelNumber];
                 LoadLevel();
+                StartGame();
             }
         }
         if (GameplayManager.GameIsOver(Enemy, Player))
@@ -135,8 +146,8 @@ public partial class Form1 : Form
             Draw();
             if (MessageBox.Show("Вы проиграли") == DialogResult.OK)
             {
-                StartGame();
                 LoadLevel();
+                StartGame();
             }
         }
         if (!new Point(Player.PositionX, Player.PositionY).Equals(Field.EndPosition))
@@ -180,5 +191,16 @@ public partial class Form1 : Form
     {
         timer1.Stop();
         timer2.Stop();
+    }
+
+    private void RestartToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        LoadLevel();
+    }
+
+    private void NewGameToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        CurrentLevelNumber = 0;
+        LoadLevel();
     }
 }
