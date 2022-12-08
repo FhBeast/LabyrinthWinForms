@@ -6,16 +6,16 @@ namespace Labyrinth;
 
 public partial class Form1 : Form
 {
-    private bool ReadyToDraw { get; set; }
+    private bool ReadyToDraw { get; set; } = true;
     private int WidthBitmap { get; set; }
     private int HeightBitmap { get; set; }
     private List<Level> Levels { get; set; }
     private Level CurrentLevel { get; set; }
+    private int CurrentLevelNumber { get; set; }
     private Field Field { get; set; }
     private Point MousePictureBoxPosition { get; set; }
     private Player Player { get; set; }
     private Enemy Enemy { get; set; }
-
     private List<Coin> Coins { get; set; }
 
     public Form1()
@@ -24,10 +24,16 @@ public partial class Form1 : Form
 
         Levels = new()
         {
-            new Level(30, 60, 3, 1)
+            new Level(10, 10, 2, 3),
+            new Level(20, 20, 3, 2),
+            new Level(30, 30, 4, 1),
+            new Level(30, 40, 5, 1),
+            new Level(30, 50, 6, 1),
+            new Level(30, 60, 7, 0),
         };
 
-        CurrentLevel = Levels[0];
+        CurrentLevelNumber = 0;
+        CurrentLevel = Levels[CurrentLevelNumber];
 
         Field = CurrentLevel.GenerateField();
         Player = CurrentLevel.GeneratePlayer();
@@ -39,8 +45,14 @@ public partial class Form1 : Form
     {
         HeightBitmap = pictureBox1.Height;
         WidthBitmap = pictureBox1.Width;
+    }
 
-        StartWave();
+    private void LoadLevel()
+    {
+        Field = CurrentLevel.GenerateField();
+        Player = CurrentLevel.GeneratePlayer();
+        Enemy = CurrentLevel.GenerateEnemy();
+        Coins = CurrentLevel.GenerateCoins();
     }
 
     private void Draw()
@@ -78,32 +90,55 @@ public partial class Form1 : Form
         });
     }
 
-    private void PictureBox1_Click(object sender, EventArgs e)
-    {
-        int startPointX = Drawing.StartPointX;
-        int startPointY = Drawing.StartPointY;
-        int cellSize = Drawing.CellSize;
-        int width = Field.Width;
-        int height = Field.Height;
+    //private void PictureBox1_Click(object sender, EventArgs e)
+    //{
+    //    int startPointX = Drawing.StartPointX;
+    //    int startPointY = Drawing.StartPointY;
+    //    int cellSize = Drawing.CellSize;
+    //    int width = Field.Width;
+    //    int height = Field.Height;
 
-        int PositionX = (MousePictureBoxPosition.X - startPointX) / cellSize;
-        int PositionY = (MousePictureBoxPosition.Y - startPointY) / cellSize;
+    //    int PositionX = (MousePictureBoxPosition.X - startPointX) / cellSize;
+    //    int PositionY = (MousePictureBoxPosition.Y - startPointY) / cellSize;
 
-        if (PositionX >= 0 &&
-            PositionY >= 0 &&
-            PositionX < width &&
-            PositionY < height &&
-            !new Point(PositionX, PositionY).Equals(Field.EndPosition))
-        {
-            Field.SetEnd(PositionX, PositionY);
-            StartWave();
-        }
-    }
+    //    if (PositionX >= 0 &&
+    //        PositionY >= 0 &&
+    //        PositionX < width &&
+    //        PositionY < height &&
+    //        !new Point(PositionX, PositionY).Equals(Field.EndPosition))
+    //    {
+    //        Field.SetEnd(PositionX, PositionY);
+    //        StartWave();
+    //    }
+    //}
 
     private void Timer2_Tick(object sender, EventArgs e)
     {
         Enemy.Update(Field);
         Player.Update(Field);
+        GameplayManager.CoinIsPicked(Coins, Player);
+        if (GameplayManager.LevelIsComplete(Coins))
+        {
+            StopGame();
+            Draw();
+            if (MessageBox.Show("Вы выиграли!") == DialogResult.OK)
+            {
+                StartGame();
+                CurrentLevelNumber++;
+                CurrentLevel = Levels[CurrentLevelNumber];
+                LoadLevel();
+            }
+        }
+        if (GameplayManager.GameIsOver(Enemy, Player))
+        {
+            StopGame();
+            Draw();
+            if (MessageBox.Show("Вы проиграли") == DialogResult.OK)
+            {
+                StartGame();
+                LoadLevel();
+            }
+        }
         if (!new Point(Player.PositionX, Player.PositionY).Equals(Field.EndPosition))
         {
             Field.SetEnd(Player.PositionX, Player.PositionY);
@@ -133,5 +168,17 @@ public partial class Form1 : Form
         {
             Player.MoveRight = true;
         }
+    }
+
+    public void StartGame()
+    {
+        timer1.Start();
+        timer2.Start();
+    }
+
+    public void StopGame()
+    {
+        timer1.Stop();
+        timer2.Stop();
     }
 }
