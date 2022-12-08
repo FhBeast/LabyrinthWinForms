@@ -20,6 +20,8 @@ internal static class CollisionVerificator
         if (entityFirst.PositionX == entitySecond.PositionX &&
             entityFirst.PositionY == entitySecond.PositionY)
         {
+            entityFirst.CollisionAction(entitySecond);
+            entitySecond.CollisionAction(entityFirst);
             return true;
         }
         return false;
@@ -43,6 +45,8 @@ internal static class CollisionVerificator
             if (ent.PositionX == entity.PositionX &&
             ent.PositionY == entity.PositionY)
             {
+                ent.CollisionAction(entity);
+                entity.CollisionAction(ent);
                 return true;
             }
         }
@@ -86,6 +90,8 @@ internal static class CollisionVerificator
                 if (entityFirst.PositionX == entitySecond.PositionX &&
                     entityFirst.PositionY == entitySecond.PositionY)
                 {
+                    entityFirst.CollisionAction(entitySecond);
+                    entitySecond.CollisionAction(entityFirst);
                     return true;
                 }
             }
