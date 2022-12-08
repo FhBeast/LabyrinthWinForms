@@ -23,4 +23,6 @@ internal abstract class BasePlayableEntity
         PositionX = x;
         PositionY = y;
     }
+
+    public virtual void CollisionAction(BasePlayableEntity entity) { }
 }
