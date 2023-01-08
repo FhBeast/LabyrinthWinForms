@@ -45,17 +45,6 @@ public partial class Form1 : Form
     {
         HeightBitmap = pictureBox1.Height;
         WidthBitmap = pictureBox1.Width;
-
-        //for (int i = 0; i < Levels.Count; i++)
-        //{
-        //    var level1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        //    levelSelectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        //    level1ToolStripMenuItem});
-        //    level1ToolStripMenuItem.Name = $"level{i}ToolStripMenuItem";
-        //    level1ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-        //    level1ToolStripMenuItem.Text = $"Уровень {i + 1}";
-        //    level1ToolStripMenuItem.Click += new System.EventHandler(LevelToolStripMenuItem_Click);
-        //}
     }
 
     private void LoadLevel()
